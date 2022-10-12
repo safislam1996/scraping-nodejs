@@ -5,7 +5,7 @@ import express from "express"
 const PORT = process.env.PORT || 5000
 const app = express()
 
-const url='https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/ od-2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at %3Adesc'
+const url='https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc'
 
 axios(url).then(
     res=>{
@@ -20,27 +20,32 @@ axios(url).then(
 
                 url_list.push(url.concat('&page=', currentPage))
                 currentPage++
+            
+                
             })
-            return (url_list)
+            return url_list
         }
         // id:6100411379
         // url: https://www.otomoto.pl/oferta/mercedes-benz-actros-ID6EQHFW.html
 
-        
+
+        const pages=getNextPageUrl()
+        for(let i=0;i<pages.length;i++){
+            console.log(pages[i])
+        }
         
         const articles=[]
-        addItems()
+        // addItems()
 
-        // function scrapeTruckItem(articles){
-        //     let url=articles.map(get_url)
-        //     function get_url(item){
-        //         return item.url
-        //     }
-        //     function getEachItem(){
-        //         const truck_id=$('div.offer_meta span span').attr('id')
-        //         console.log(truck_id)
-        //     }
-        //     url.map(getEachItem)
+        function scrapeTruckItem(articles){
+            let url=articles.map(get_url)
+            function get_url(item){
+                return item.url
+            }
+            function getEachItem(){
+                const truck_id=$('div.offer_meta span span').attr('id')
+                // console.log(truck_id)
+            }
 
            
         // }
@@ -57,7 +62,7 @@ axios(url).then(
                     const span_offer=$('span.offer-main-params__item').text().replace(/ /gi,'');
                     const production_date=span_offer.slice(0,5)
                     const mileage=span_offer.slice(6,12)
-                    const power=span_offer.slice(14,21)
+                    const power=span_offer.slice(1,21)
 
                     const truck_data={
                         'truck id':truck_id,
@@ -69,9 +74,9 @@ axios(url).then(
                         'power':power
                     }
                     
-                    console.log(truck_data)
+                    // console.log(truck_data)
 
-        })
+        }).catch(err=>console.log(err))
     }
     scrapeItem('https://www.otomoto.pl/oferta/mercedes-benz-actros-1848-z-hidraulika-ID6EV9XH.html')
         // let val=scrapeTruckItem(articles)
@@ -106,7 +111,7 @@ axios(url).then(
 
     }
     
-).catch(err => console.error(err))
+}).catch(err => console.error(err))
 
 
 

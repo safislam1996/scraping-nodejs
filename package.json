@@ -1,7 +1,6 @@
 {
   "name": "nodejs-scraping",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -19,5 +18,14 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safislam1996/scraping-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/safislam1996/scraping-nodejs/issues"
+  },
+  "homepage": "https://github.com/safislam1996/scraping-nodejs#readme",
+  "description": ""
 }
