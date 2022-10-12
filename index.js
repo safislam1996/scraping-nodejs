@@ -28,17 +28,40 @@ axios(url).then(
         // id:6100411379
         // url: https://www.otomoto.pl/oferta/mercedes-benz-actros-ID6EQHFW.html
 
-
+        
         const pages=getNextPageUrl()
-        for(let i=0;i<pages.length;i++){
-            console.log(pages[i])
+        
+        console.log(pages)
+        
+        // addItems()
+        const articles=[]
+        function addItems() {
+            
+            $('main article').map((idx, elm) => {
+                const item_id = $(elm).attr('id')
+                const item_url = $(elm).find('a').attr('href')
+
+                const article = {
+                    'item_id': item_id,
+                    'url': item_url
+                }
+                // console.log(article)
+                return articles.push(article)
+                
+            })
+        }
+        function getTotalAdsCount(val) {
+            console.log(val.length)
         }
         
-        const articles=[]
-        // addItems()
+        for(let i=0;i<pages.length;i++){
+            addItems()
+            console.log("enter this for loop")
+            console.log(articles)
+        }
 
-        function scrapeTruckItem(articles){
-            let url=articles.map(get_url)
+        function scrapeTruckItem(value){
+            let url=value.map(get_url)
             function get_url(item){
                 return item.url
             }
@@ -82,31 +105,14 @@ axios(url).then(
         // let val=scrapeTruckItem(articles)
         // console.log(val)
         // articles.map(scrapeTruckItem)
-        function addItems() {
-            
-            $('main article').map((idx, elm) => {
-                const item_id = $(elm).attr('id')
-                const item_url = $(elm).find('a').attr('href')
-
-                const article = {
-                    'item_id': item_id,
-                    'url': item_url
-                }
-                // console.log(article)
-                articles.push(article)
-                
-            })
-        }
-        function getTotalAdsCount(articles) {
-            // console.log(articles.length)
-        }
+        
         
 
 
 
         
        
-        getTotalAdsCount(articles)
+      
         
 
     }
