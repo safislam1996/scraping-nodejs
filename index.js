@@ -25,7 +25,7 @@ function addItems(val) {
         }
         
         articles.push(article)
-        console.log(articles)
+        // console.log(articles)
         scrapeItem(article['url'])
         
     })
@@ -46,9 +46,12 @@ let scrapeItem =async (url)=>{
     const price=$('span.offer-price__number').text().slice(0,8)
     const registration_date=$('span.offer-meta__value').text().slice(7,27)
     const span_offer=$('span.offer-main-params__item').text().replace(/ /gi,'');
-    const production_date=span_offer.slice(0,5)
+    const production_date=span_offer.slice(0,5).replace(/\n/g, '')
     const mileage=span_offer.slice(6,12)
-    const power=span_offer.slice(1,21)
+    //TODO: Remove the '\n' from the power value
+    // First replace the '\n' with a space. Splitting the via a space. 
+    // Then popping the last item in the list
+    const power=span_offer.slice(1,21).replace(/\n/g, ' ').split(' ').pop()
 
     const truck_data={
         'truck id':truck_id,
@@ -62,7 +65,7 @@ let scrapeItem =async (url)=>{
 
     
     parsedResults.push(truck_data)
-
+    console.log(parsedResults)
 
     
 
@@ -83,13 +86,11 @@ const getWebsiteContent = async (url) => {
         for(let page_counter=1;page_counter<=total_pages;page_counter++){
             const page_link=url+nextPageLink+'&page='+page_counter
             adCountLength(page_counter,page_link)
-            // addItems(page_link)
+            addItems(page_link)
 
-            // if(page_counter===total_pages){
-            //     exportResults(parsedResults)
-            // }
         }
         
+       
 }
 
     catch (error) {
