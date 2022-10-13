@@ -8,6 +8,7 @@ const outputFile = 'data.json'
 const url='https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc'
 const response = await axios.get(url)
 const $ = load(response.data)
+//TODO: Don't hard code the number of pages
 const total_pages=7
 let page_counter=0
 let articles=[]
@@ -65,13 +66,14 @@ let scrapeItem =async (url)=>{
 
     
     parsedResults.push(truck_data)
-    console.log(parsedResults)
-
+    console.log(parsedResults.length)
+    
     
 
 }
 
-// scrapeItem('https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc')
+// exportResults(parsedResults)
+
  
 
 //TODO: There is an error. The entire function is in a constant loop.
@@ -84,10 +86,12 @@ const getWebsiteContent = async (url) => {
 
         //TODO: Add map function
         for(let page_counter=1;page_counter<=total_pages;page_counter++){
+
+            
             const page_link=url+nextPageLink+'&page='+page_counter
             adCountLength(page_counter,page_link)
             addItems(page_link)
-
+            
         }
         
        
@@ -111,5 +115,5 @@ const exportResults = (parsedResults) => {
 
 }
 getWebsiteContent(url)
-
+// fs.writeFile(outputFile, JSON.stringify(parsedResults, null, 4));
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
