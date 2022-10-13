@@ -11,7 +11,7 @@ const $ = load(response.data)
 const total_pages=7
 let page_counter=0
 let articles=[]
-
+const parsedResults = []
 function addItems(val) {
             
     $('main article').map((idx, elm) => {
@@ -24,13 +24,14 @@ function addItems(val) {
             
         }
         articles.push(article)
-        adCountLength(article['item_id'])
+        
         scrapeItem(article['url'])
         
     })
 }
-let adCountLength=(item)=>{
-    console.log(item.length)
+let adCountLength=(i,item)=>{
+    const article=$('main article')
+    console.log("Page "+i+" : "+article.length)
 }
 
 // Scrape the item information about the product for each page
@@ -59,7 +60,7 @@ let scrapeItem =async (url)=>{
     }
 
     
-console.log(truck_data)
+    parsedResults.push(truck_data)
 
 
 
@@ -76,8 +77,8 @@ const getWebsiteContent = async (url) => {
         //TODO: Add map function
         for(let page_counter=1;page_counter<=total_pages;page_counter++){
             const page_link=url+nextPageLink+'&page='+page_counter
-
-            addItems(page_link)
+            adCountLength(page_counter,page_link)
+            // addItems(page_link)
         }
         
    
