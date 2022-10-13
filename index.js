@@ -1,10 +1,10 @@
 import axios from "axios"
 import cheerio, { html,load} from "cheerio"
 import express from "express"
-
+import fs from "fs"
 const PORT = process.env.PORT || 5000
 const app = express()
-
+const outputFile = 'data.json'
 const url='https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc'
 const response = await axios.get(url)
 const $ = load(response.data)
@@ -23,8 +23,9 @@ function addItems(val) {
             'url': item_url,
             
         }
-        articles.push(article)
         
+        articles.push(article)
+        console.log(articles)
         scrapeItem(article['url'])
         
     })
@@ -63,11 +64,15 @@ let scrapeItem =async (url)=>{
     parsedResults.push(truck_data)
 
 
-
+    
 
 }
+
 // scrapeItem('https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc')
  
+
+//TODO: There is an error. The entire function is in a constant loop.
+//TODO: Errror was fixed.
 const getWebsiteContent = async (url) => {
 
     try {
@@ -79,9 +84,11 @@ const getWebsiteContent = async (url) => {
             const page_link=url+nextPageLink+'&page='+page_counter
             adCountLength(page_counter,page_link)
             // addItems(page_link)
+
+            // if(page_counter===total_pages){
+            //     exportResults(parsedResults)
+            // }
         }
-        
-   
         
 }
 
@@ -89,9 +96,19 @@ const getWebsiteContent = async (url) => {
         exportResults(parsedResults)
         console.error(error)
       }
+    }
+const exportResults = (parsedResults) => {
+    fs.writeFile(outputFile, JSON.stringify(parsedResults,null, 4), (err) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log((`Results exported successfully to ${outputFile}`))
+    });
+  
+  
+
+
 }
-
 getWebsiteContent(url)
-
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
