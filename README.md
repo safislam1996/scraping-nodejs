@@ -1,0 +1,168 @@
+# scraping-nodejs
+Using the nodejs, cheerio and  axios  to scraping data from a dealership website. 
+Run the following code in the terminal
+
+```powershell
+npm i cheerio
+npm i node-fetch
+npm i axios
+
+```
+
+## I am going to Scrape the following Polish Truck rental company website called OTOMOTO
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1f0a14dc-b510-4fc3-946c-d0f8c5d66eea/Untitled.png)
+
+```jsx
+const url = 'https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc';
+
+const response = await fetch(url);
+const body = await response.text();
+
+let $ = load(body);
+```
+
+### 1. Add getNextPageUrl function to iterate over pages
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c598b3b-75cf-4457-be24-f646e63a21b5/Untitled.png)
+
+We have to find out if the arrow exists or not
+
+```jsx
+find(li.id=['__next'].(class=pagination-item__disabled)
+```
+
+The above code is a pseudo code for finding out the id of the ‘li’ for which class is `pagination_item` is disabled
+
+It iterates through  the list until we find this class
+
+```jsx
+The final code goes here...
+```
+
+### 1. Add getNextPageUrl function to iterate over pages
+
+[cheerio-pagination-tutorial/index.js at master · siegfriedgrimbeek/cheerio-pagination-tutorial](https://github.com/siegfriedgrimbeek/cheerio-pagination-tutorial/blob/master/index.js)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8410501-1b12-4bdb-a8f7-f5608c21a56b/Untitled.png)
+
+```jsx
+$('h2.primary');
+```
+
+format: <tag.class>
+
+```jsx
+const tests = $("#my-divs:eq(2)")
+#selecting id using #
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25746d7e-6b40-4c46-a00b-46bc3d40c0dd/Untitled.png)
+
+## How do I scrape data from the ‘OTOMOTO’ app
+
+[How to scrape android app](’[https://scribe.rip/data-scraping-android-apps-b15b93aa23aa](https://scribe.rip/data-scraping-android-apps-b15b93aa23aa)’)
+
+[scraping_notes.txt](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6f291512-1761-4c33-9c05-192b07082c6e/scraping_notes.txt)
+
+```jsx
+npm init -y
+npm i axios express cheerios
+
+"scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+```
+
+```jsx
+import axios from "axios"
+import cheerio from "cheerio"
+import express from "express"
+
+const PORT = process.env.PORT || 5000
+const app = express()
+
+const URL = 'https://www.manchestereveningnews.co.uk/sport/football/'
+
+axios(URL)
+    .then(res => {
+        const htmlData = res.data
+        const $ = cheerio.load(htmlData)
+```
+
+## Let’s begin
+
+1. Lets check if the code runs
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12c8132f-5ab6-44a1-844b-4393f6ddeaec/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b84769e-b54b-40f8-8ad6-bb7a54f8d7e3/Untitled.png)
+
+Well I will take that as a yes!!
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aaaedaf4-590b-404b-b0cb-09493146cd56/Untitled.png)
+
+This checks the pagination list at the bottom of the list
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bf4812be-facc-4afe-9b5d-039ef440c95c/Untitled.png)
+
+This produces the answer
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c444a7d6-0d39-48a4-8ebb-ac060c51eae0/Untitled.png)
+
+We can iterate through the values of the of list ‘elm’ at put it in the page value in the query
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77a78b31-6ce9-46a9-a3e2-af11890aa4a1/Untitled.png)
+
+This function iterates through the different pages
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d25cd492-79d7-4a82-b35a-6ad91a723b54/Untitled.png)
+
+Get the total count of each pages
+
+Get the item id and each url for each of the product
+
+This function creates a dictionary of each individual truck information.
+
+- [ ]  `getNextPageUrl` function
+- [ ]  `addItem` function
+- [ ]  `scrapeTruckItem` function
+- [ ]  `getTotalAdsCount` function
+
+### The basic idea NOW
+
+1. The `getNextPageUrl` first helps us iterate through each of the `base_url` with the index page at the end.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a00b9553-ab8f-4e39-b44a-5c39fdfbebd7/Untitled.png)
+
+              
+
+<aside>
+💡 The function returns a list of urls available during pagination.  Now we need to parse each of the urls to get the number of items of
+
+</aside>
+
+1. The `addItem` function is responsible for extracting the id and url of each item. The url is then passed as a parameter to another funciton  `scrapeTruckItem` that takes in the url of each individual truck and scrapes through them.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e5e9176-8805-46d5-b2b7-01007186a2a2/Untitled.png)
+
+1. The `scrapeTruckItem` iterates through each url and scrapes each vehicle information listed. 
+    1. item id
+    2. title
+    3. price
+    4. registration date
+    5. production date
+    6. mileage
+    7. power
+    
+    The item informations are then saved in the form in a dictionary.And passed along to a list(`parsedResults`) containing all the information of the items.
+    
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c6ec8e08-c526-4306-ab24-b8853296c027/Untitled.png)
+
+```jsx
+parsedResults.push(truck_data)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/10e19b61-78ae-4575-bfef-6d266682b379/Untitled.png)
