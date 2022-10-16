@@ -196,6 +196,22 @@ let scrapeTruckItem  =async (url)=>{
 }
 ```
 
+The following function exports the list of truck data to a json format.
+```jsx
+
+exportResults(parsedResults)
+//This function is responsible for iteration multiple times.
+const exportResults = (parsedResults) => {
+    console.log(parsedResults)
+    fs.writeFile(outputFile, JSON.stringify(parsedResults,null, 4), (err) => {
+      if (err) {
+        exportResults(parsedResults)
+        console.log(err)
+      }
+      console.log((`Results exported successfully to ${outputFile}`))
+    });
+
+}
 
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/10e19b61-78ae-4575-bfef-6d266682b379/Untitled.png)
+```
