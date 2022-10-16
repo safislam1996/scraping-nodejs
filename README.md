@@ -61,9 +61,7 @@ const tests = $("#my-divs:eq(2)")
 
 ## How do I scrape data from the ‘OTOMOTO’ app
 
-[How to scrape android app](’[https://scribe.rip/data-scraping-android-apps-b15b93aa23aa](https://scribe.rip/data-scraping-android-apps-b15b93aa23aa)’)
 
-[scraping_notes.txt](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6f291512-1761-4c33-9c05-192b07082c6e/scraping_notes.txt)
 
 ```jsx
 npm init -y
@@ -131,7 +129,27 @@ This function creates a dictionary of each individual truck information.
 
 1. The `addItem` function is responsible for extracting the id and url of each item. The url is then passed as a parameter to another funciton  `scrapeTruckItem` that takes in the url of each individual truck and scrapes through them.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e5e9176-8805-46d5-b2b7-01007186a2a2/Untitled.png)
+
+```
+function addItems(val) {
+            
+    $('main article').map((idx, elm) => {
+        const item_id = $(elm).attr('id')
+        const item_url = $(elm).find('a').attr('href')
+        
+        const article = {
+            'item_id': item_id,
+            'url': item_url,
+            
+        }
+        
+        articles.push(article)
+        // console.log(articles)
+        scrapeTruckItem(article['url'])
+        
+    })
+}
+```
 
 1. The `scrapeTruckItem` iterates through each url and scrapes each vehicle information listed. 
     1. item id
@@ -144,8 +162,39 @@ This function creates a dictionary of each individual truck information.
     
     The item informations are then saved in the form in a dictionary.And passed along to a list(`parsedResults`) containing all the information of the items.
     
+```
+let scrapeTruckItem  =async (url)=>{
+    const res=await axios.get(url)
+    const $=load(res.data)
+    const truck_datas=[]
+    const truck_id=$('#ad_id').text()
+    // console.log(truck_id)
+    const title=$('span.offer-title').text().trim()
+    const price=$('span.offer-price__number').text().slice(0,8)
+    const registration_date=$('span.offer-meta__value').text().slice(7,27)
+    const span_offer=$('span.offer-main-params__item').text().replace(/ /gi,'');
+    const production_date=span_offer.slice(0,5).replace(/\n/g, '')
+    const mileage=span_offer.slice(6,12)
+    // First replace the '\n' with a space. Splitting the via a space. 
+    // Then popping the last item in the list
+    const power=span_offer.slice(1,21).replace(/\n/g, ' ').split(' ').pop()
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c6ec8e08-c526-4306-ab24-b8853296c027/Untitled.png)
+    const truck_data={
+        'truck id':truck_id,
+        'title':title,
+        'price':price,
+        'registration date':registration_date,
+        'production date':production_date,
+        'mileage':mileage,
+        'power':power
+    }
+
+    
+    parsedResults.push(truck_data)
+
+
+}
+```
 
 ```jsx
 parsedResults.push(truck_data)
