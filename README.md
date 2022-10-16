@@ -115,7 +115,7 @@ This function creates a dictionary of each individual truck information.
 
 1. The `getNextPageUrl` first helps us iterate through each of the `base_url` with the index page at the end. They find the 'href' attribute of each pages in the pagination list
 
-```
+```jsx
  const nextPageLink=$('ul.pagination-list li').find('a').attr('href')
 
 ```
@@ -130,7 +130,7 @@ This function creates a dictionary of each individual truck information.
 1. The `addItem` function is responsible for extracting the id and url of each item. The url is then passed as a parameter to another funciton  `scrapeTruckItem` that takes in the url of each individual truck and scrapes through them.
 
 
-```
+```jsx
 function addItems(val) {
             
     $('main article').map((idx, elm) => {
@@ -162,7 +162,7 @@ function addItems(val) {
     
     The item informations are then saved in the form in a dictionary.And passed along to a list(`parsedResults`) containing all the information of the items.
     
-```
+```jsx
 let scrapeTruckItem  =async (url)=>{
     const res=await axios.get(url)
     const $=load(res.data)
@@ -196,8 +196,6 @@ let scrapeTruckItem  =async (url)=>{
 }
 ```
 
-```jsx
-parsedResults.push(truck_data)
-```
+
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/10e19b61-78ae-4575-bfef-6d266682b379/Untitled.png)
