@@ -8,8 +8,8 @@ const outputFile = 'data.json'
 const url='https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc'
 const response = await axios.get(url)
 const $ = load(response.data)
-//TODO: Don't hard code the number of pages
-const total_pages=7
+const total_pages=$('ul.pagination-list li').length
+
 let page_counter=0
 let articles=[]
 const parsedResults = []
@@ -27,17 +27,17 @@ function addItems(val) {
         
         articles.push(article)
         // console.log(articles)
-        scrapeItem(article['url'])
+        scrapeTruckItem(article['url'])
         
     })
 }
 let adCountLength=(i,item)=>{
     const article=$('main article')
-    console.log("Page "+i+" : "+article.length)
+    // console.log("Page "+i+" : "+article.length)
 }
 
 // Scrape the item information about the product for each page
-let scrapeItem =async (url)=>{
+let scrapeTruckItem  =async (url)=>{
     const res=await axios.get(url)
     const $=load(res.data)
     const truck_datas=[]
@@ -49,7 +49,6 @@ let scrapeItem =async (url)=>{
     const span_offer=$('span.offer-main-params__item').text().replace(/ /gi,'');
     const production_date=span_offer.slice(0,5).replace(/\n/g, '')
     const mileage=span_offer.slice(6,12)
-    //TODO: Remove the '\n' from the power value
     // First replace the '\n' with a space. Splitting the via a space. 
     // Then popping the last item in the list
     const power=span_offer.slice(1,21).replace(/\n/g, ' ').split(' ').pop()
@@ -66,18 +65,31 @@ let scrapeItem =async (url)=>{
 
     
     parsedResults.push(truck_data)
-    console.log(parsedResults.length)
-    
-    
+
+
+}
+exportResults(parsedResults)
+//This function is responsible for iteration multiple times.
+const exportResults = (parsedResults) => {
+    console.log(parsedResults)
+    fs.writeFile(outputFile, JSON.stringify(parsedResults,null, 4), (err) => {
+      if (err) {
+        exportResults(parsedResults)
+        console.log(err)
+      }
+      console.log((`Results exported successfully to ${outputFile}`))
+    });
 
 }
 
-// exportResults(parsedResults)
+
+
+
+
 
  
 
-//TODO: There is an error. The entire function is in a constant loop.
-//TODO: Errror was fixed.
+//Main function 
 const getWebsiteContent = async (url) => {
 
     try {
@@ -93,27 +105,17 @@ const getWebsiteContent = async (url) => {
             addItems(page_link)
             
         }
-        
+        // exportResults(parsedResults)
        
 }
 
     catch (error) {
+        console.log("I am stuck here")
         exportResults(parsedResults)
         console.error(error)
       }
     }
-const exportResults = (parsedResults) => {
-    fs.writeFile(outputFile, JSON.stringify(parsedResults,null, 4), (err) => {
-      if (err) {
-        console.log(err)
-      }
-      console.log((`Results exported successfully to ${outputFile}`))
-    });
-  
-  
 
-
-}
 getWebsiteContent(url)
-// fs.writeFile(outputFile, JSON.stringify(parsedResults, null, 4));
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
