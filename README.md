@@ -24,7 +24,7 @@ let $ = load(body);
 
 ### 1. Add getNextPageUrl function to iterate over pages
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c598b3b-75cf-4457-be24-f646e63a21b5/Untitled.png)
+
 
 We have to find out if the arrow exists or not
 
@@ -44,7 +44,7 @@ The final code goes here...
 
 [cheerio-pagination-tutorial/index.js at master · siegfriedgrimbeek/cheerio-pagination-tutorial](https://github.com/siegfriedgrimbeek/cheerio-pagination-tutorial/blob/master/index.js)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8410501-1b12-4bdb-a8f7-f5608c21a56b/Untitled.png)
+
 
 ```jsx
 $('h2.primary');
@@ -57,7 +57,7 @@ const tests = $("#my-divs:eq(2)")
 #selecting id using #
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25746d7e-6b40-4c46-a00b-46bc3d40c0dd/Untitled.png)
+
 
 ## How do I scrape data from the ‘OTOMOTO’ app
 
