@@ -25,7 +25,7 @@ let $ = load(body);
 
 ### 1. Add getNextPageUrl function to iterate over pages
 
-[cheerio-pagination-tutorial/index.js at master · siegfriedgrimbeek/cheerio-pagination-tutorial](https://github.com/siegfriedgrimbeek/cheerio-pagination-tutorial/blob/master/index.js)
+
 
 
 ```jsx
