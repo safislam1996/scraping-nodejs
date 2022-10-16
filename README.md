@@ -11,7 +11,6 @@ npm i axios
 
 ## I am going to Scrape the following Polish Truck rental company website called OTOMOTO
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1f0a14dc-b510-4fc3-946c-d0f8c5d66eea/Untitled.png)
 
 ```jsx
 const url = 'https://www.otomoto.pl/ciezarowe/uzytkowe/mercedes-benz/od-+2014/q-actros?search%5Bfilter_enum_damaged%5D=0&search%5Border%5D=created_at+%3Adesc';
@@ -22,45 +21,11 @@ const body = await response.text();
 let $ = load(body);
 ```
 
-### 1. Add getNextPageUrl function to iterate over pages
 
-
-
-We have to find out if the arrow exists or not
-
-```jsx
-find(li.id=['__next'].(class=pagination-item__disabled)
-```
-
-The above code is a pseudo code for finding out the id of the ‘li’ for which class is `pagination_item` is disabled
-
-It iterates through  the list until we find this class
-
-```jsx
-The final code goes here...
-```
 
 ### 1. Add getNextPageUrl function to iterate over pages
 
 [cheerio-pagination-tutorial/index.js at master · siegfriedgrimbeek/cheerio-pagination-tutorial](https://github.com/siegfriedgrimbeek/cheerio-pagination-tutorial/blob/master/index.js)
-
-
-
-```jsx
-$('h2.primary');
-```
-
-format: <tag.class>
-
-```jsx
-const tests = $("#my-divs:eq(2)")
-#selecting id using #
-```
-
-
-
-## How do I scrape data from the ‘OTOMOTO’ app
-
 
 
 ```jsx
