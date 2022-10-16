@@ -95,29 +95,12 @@ axios(URL)
 
 1. Lets check if the code runs
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12c8132f-5ab6-44a1-844b-4393f6ddeaec/Untitled.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b84769e-b54b-40f8-8ad6-bb7a54f8d7e3/Untitled.png)
-
-Well I will take that as a yes!!
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aaaedaf4-590b-404b-b0cb-09493146cd56/Untitled.png)
+)
 
 This checks the pagination list at the bottom of the list
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bf4812be-facc-4afe-9b5d-039ef440c95c/Untitled.png)
 
-This produces the answer
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c444a7d6-0d39-48a4-8ebb-ac060c51eae0/Untitled.png)
-
-We can iterate through the values of the of list ‘elm’ at put it in the page value in the query
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77a78b31-6ce9-46a9-a3e2-af11890aa4a1/Untitled.png)
-
-This function iterates through the different pages
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d25cd492-79d7-4a82-b35a-6ad91a723b54/Untitled.png)
 
 Get the total count of each pages
 
@@ -132,9 +115,12 @@ This function creates a dictionary of each individual truck information.
 
 ### The basic idea NOW
 
-1. The `getNextPageUrl` first helps us iterate through each of the `base_url` with the index page at the end.
+1. The `getNextPageUrl` first helps us iterate through each of the `base_url` with the index page at the end. They find the 'href' attribute of each pages in the pagination list
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a00b9553-ab8f-4e39-b44a-5c39fdfbebd7/Untitled.png)
+```
+ const nextPageLink=$('ul.pagination-list li').find('a').attr('href')
+
+```
 
               
 
